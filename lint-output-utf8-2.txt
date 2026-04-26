@@ -1,0 +1,650 @@
+﻿
+> frontend@0.1.0 lint
+> eslint
+
+
+D:\Project AI Interview\frontend\src\app\(public)\auth\forgot\page.tsx
+  18:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\Project AI Interview\frontend\src\app\(public)\auth\forgot\page.tsx:18:5
+  16 |
+  17 |   useEffect(() => {
+> 18 |     setYear(new Date().getFullYear())
+     |     ^^^^^^^ Avoid calling setState() directly within an effect
+  19 |   }, [])
+  20 |
+  21 |   const handleSubmit = () => {  react-hooks/set-state-in-effect
+
+D:\Project AI Interview\frontend\src\app\(public)\career\page.tsx
+  65:10  warning  'errors' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+  86:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\Project AI Interview\frontend\src\app\(public)\career\page.tsx:86:7
+  84 |   useEffect(() => {
+  85 |     if (selectedQualification === "Other") {
+> 86 |       setFormData({ ...formData, qualification: otherQualification })
+     |       ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  87 |     } else {
+  88 |       setFormData({ ...formData, qualification: selectedQualification })
+  89 |     }  react-hooks/set-state-in-effect
+  90:6   warning  React Hook useEffect has a missing dependency: 'formData'. Either include it or remove the dependency array. You can also do a functional update 'setFormData(f => ...)' if you only need 'formData' in the 'setFormData' call                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/exhaustive-deps
+
+D:\Project AI Interview\frontend\src\app\(public)\contact\page.tsx
+  159:41  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\(public)\internships\page.tsx
+   47:10  warning  'errors' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+   56:19  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\Project AI Interview\frontend\src\app\(public)\internships\page.tsx:56:19
+  54 |   });
+  55 |
+> 56 |   useEffect(() => setInternships(internshipsData), []);
+     |                   ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  57 |
+  58 |   useEffect(() => {
+  59 |     const handler = (e: KeyboardEvent) => e.key === "Escape" && setSelected(null);  react-hooks/set-state-in-effect
+  206:35  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\(public)\page.tsx
+  11:10  warning  'link' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Project AI Interview\frontend\src\app\(public)\updates\page.tsx
+  3:10  warning  'useState' is defined but never used   @typescript-eslint/no-unused-vars
+  3:20  warning  'FormEvent' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Project AI Interview\frontend\src\app\admin\company\page.tsx
+    9:3  warning  'PanelLeft' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  116:7  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\Project AI Interview\frontend\src\app\admin\company\page.tsx:116:7
+  114 |     const storedCompany = localStorage.getItem("joinedCompany");
+  115 |     if (storedCompany) {
+> 116 |       setCompany(JSON.parse(storedCompany));
+      |       ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  117 |     }
+  118 |   }, []);
+  119 |  react-hooks/set-state-in-effect
+
+D:\Project AI Interview\frontend\src\app\admin\companydashboard\page.tsx
+  86:7   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\Project AI Interview\frontend\src\app\admin\companydashboard\page.tsx:86:7
+  84 |       router.replace("/admin/company");
+  85 |     } else {
+> 86 |       setCheckedJoinStatus(true);
+     |       ^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  87 |     }
+  88 |   }, [router]);
+  89 |  react-hooks/set-state-in-effect
+  94:29  error  React Hook "useMemo" is called conditionally. React Hooks must be called in the exact same order in every component render                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/rules-of-hooks
+
+D:\Project AI Interview\frontend\src\app\admin\interview\page.tsx
+  167:34  error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  193:55  error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  295:10  warning  'adminName' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  397:53  error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  403:39  error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\admin\jobs\page.tsx
+    8:3   warning  'Briefcase' is defined but never used                                  @typescript-eslint/no-unused-vars
+   75:10  warning  'refreshing' is assigned a value but never used                        @typescript-eslint/no-unused-vars
+   79:10  warning  'adminName' is assigned a value but never used                         @typescript-eslint/no-unused-vars
+  132:5   warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+D:\Project AI Interview\frontend\src\app\admin\layout.tsx
+  239:53  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  240:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\admin\profile\page.tsx
+  146:10  warning  'profile' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  205:14  warning  'err' is defined but never used               @typescript-eslint/no-unused-vars
+
+D:\Project AI Interview\frontend\src\app\admin\resume\[userId]\page.tsx
+  169:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  197:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  351:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  362:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  434:41  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  444:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\admin\resume\page.tsx
+    6:3   warning  'Upload' is defined but never used              @typescript-eslint/no-unused-vars
+    7:3   warning  'Save' is defined but never used                @typescript-eslint/no-unused-vars
+    8:3   warning  'Edit3' is defined but never used               @typescript-eslint/no-unused-vars
+    9:3   warning  'FileText' is defined but never used            @typescript-eslint/no-unused-vars
+   10:3   warning  'Trophy' is defined but never used              @typescript-eslint/no-unused-vars
+   12:3   warning  'RefreshCw' is defined but never used           @typescript-eslint/no-unused-vars
+   13:3   warning  'AlertCircle' is defined but never used         @typescript-eslint/no-unused-vars
+   14:3   warning  'Download' is defined but never used            @typescript-eslint/no-unused-vars
+   15:3   warning  'Eye' is defined but never used                 @typescript-eslint/no-unused-vars
+   16:3   warning  'Search' is defined but never used              @typescript-eslint/no-unused-vars
+   17:3   warning  'User' is defined but never used                @typescript-eslint/no-unused-vars
+   18:3   warning  'Mail' is defined but never used                @typescript-eslint/no-unused-vars
+   19:3   warning  'CalendarDays' is defined but never used        @typescript-eslint/no-unused-vars
+   87:31  error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  121:10  warning  'uploading' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  168:27  error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\admin\resume\version\[versionId]\page.tsx
+  170:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  357:51  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  368:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\dashboard\page.tsx
+  219:39  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  235:35  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  255:37  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  265:40  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  283:38  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  395:14  warning  'err' is defined but never used           @typescript-eslint/no-unused-vars
+  433:59  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  437:26  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  446:16  warning  'err' is defined but never used           @typescript-eslint/no-unused-vars
+  534:75  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  574:14  warning  'err' is defined but never used           @typescript-eslint/no-unused-vars
+
+D:\Project AI Interview\frontend\src\app\user\interview\page.tsx
+   23:30  error    Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+   24:24  error    Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  154:10  warning  'normalizeNumber' is defined but never used  @typescript-eslint/no-unused-vars
+  197:33  error    Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  358:55  error    Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  478:36  error    Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\interviewdashboard\page.tsx
+  174:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  190:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  314:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  314:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  315:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  402:75  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\jobs\page.tsx
+  184:31  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  200:28  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  214:10  warning  'formatDate' is defined but never used    @typescript-eslint/no-unused-vars
+  414:45  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  422:16  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  526:38  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  553:36  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\needhelp\page.tsx
+  32:54  error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  66:28  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+D:\Project AI Interview\frontend\src\app\user\page.tsx
+    8:3   warning  'AlertCircle' is defined but never used                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+  164:33  error    Unexpected any. Specify a different type                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+  188:45  error    Unexpected any. Specify a different type                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+  216:35  error    Unexpected any. Specify a different type                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+  307:9   warning  The 'subDomainMulti' logical expression could make the dependencies of useMemo Hook (at line 324) change on every render. Move it inside the useMemo callback. Alternatively, wrap the initialization of 'subDomainMulti' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  308:9   warning  The 'jobTitles' logical expression could make the dependencies of useMemo Hook (at line 329) change on every render. To fix this, wrap the initialization of 'jobTitles' in its own useMemo() Hook                                                   react-hooks/exhaustive-deps
+  388:57  error    Unexpected any. Specify a different type                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+  401:57  error    Unexpected any. Specify a different type                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+  431:71  error    Unexpected any. Specify a different type                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+  477:68  error    Unexpected any. Specify a different type                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+  501:19  error    Unexpected any. Specify a different type                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\profile\page.tsx
+    6:3   warning  'User2' is defined but never used         @typescript-eslint/no-unused-vars
+    7:3   warning  'Mail' is defined but never used          @typescript-eslint/no-unused-vars
+  426:19  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\profile\settings\page.tsx
+  133:10  warning  'normalizeString' is defined but never used  @typescript-eslint/no-unused-vars
+  398:19  error    Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  529:17  error    Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  567:17  error    Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\resume\[resumeId]\page.tsx
+  178:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  349:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  354:65  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  358:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  363:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  409:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  414:63  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  432:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  435:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  470:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  494:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  497:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  542:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\resume\[resumeId]\versions\[versionId]\edit\page.tsx
+  182:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  366:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  371:60  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  375:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  381:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  430:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  435:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  453:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  456:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  493:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  517:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  520:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  568:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\resume\[resumeId]\versions\[versionId]\page.tsx
+  185:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  360:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  365:60  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  369:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  375:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  424:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  429:58  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  447:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  451:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  488:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  512:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  515:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  565:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\resume\[resumeId]\versions\[versionId]\preview\page.tsx
+  144:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  276:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  281:60  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  285:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  310:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  369:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\resume\create-duplicate\page.tsx
+  183:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  261:41  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  430:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  435:67  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  441:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  452:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  521:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  527:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  530:28  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  537:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  550:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  580:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\resume\create\page.tsx
+  178:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  256:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  434:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  439:65  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  443:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  448:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  508:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  514:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  516:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  523:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  532:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  564:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\resume\page.tsx
+  140:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  361:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  366:63  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  372:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  448:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  453:61  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  460:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  463:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  519:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  524:61  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  542:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  545:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  581:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  606:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  609:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  650:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\resume\tailor\page.tsx
+    8:3   warning  'FileText' is defined but never used              @typescript-eslint/no-unused-vars
+  197:10  warning  'normalizeStringArray' is defined but never used  @typescript-eslint/no-unused-vars
+  204:10  warning  'formatDateTime' is defined but never used        @typescript-eslint/no-unused-vars
+  216:37  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  294:39  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  386:39  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  387:31  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  402:19  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  572:38  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  577:63  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  581:38  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  603:36  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  606:21  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  663:38  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  678:36  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  683:21  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  730:38  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  736:36  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  739:21  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  773:38  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  778:65  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  782:38  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  805:36  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  808:21  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\resume\upload\page.tsx
+  121:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  327:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  332:63  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  358:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  366:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\setup\page.tsx
+    8:3   warning  'FileText' is defined but never used                                                                                @typescript-eslint/no-unused-vars
+  169:39  error    Unexpected any. Specify a different type                                                                            @typescript-eslint/no-explicit-any
+  189:45  error    Unexpected any. Specify a different type                                                                            @typescript-eslint/no-explicit-any
+  445:69  error    Unexpected any. Specify a different type                                                                            @typescript-eslint/no-explicit-any
+  507:6   warning  React Hook useEffect has a missing dependency: 'redirectToLogin'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  568:59  error    Unexpected any. Specify a different type                                                                            @typescript-eslint/no-explicit-any
+  572:32  error    Unexpected any. Specify a different type                                                                            @typescript-eslint/no-explicit-any
+  600:17  error    Unexpected any. Specify a different type                                                                            @typescript-eslint/no-explicit-any
+  721:32  error    Unexpected any. Specify a different type                                                                            @typescript-eslint/no-explicit-any
+  726:30  error    Unexpected any. Specify a different type                                                                            @typescript-eslint/no-explicit-any
+  732:17  error    Unexpected any. Specify a different type                                                                            @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\app\user\update\page.tsx
+  3:10  warning  'useState' is defined but never used   @typescript-eslint/no-unused-vars
+  3:20  warning  'FormEvent' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Project AI Interview\frontend\src\components\common\Footer.tsx
+  19:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\Project AI Interview\frontend\src\components\common\Footer.tsx:19:5
+  17 |   useEffect(() => {
+  18 |     const savedRole = localStorage.getItem("role") as Role
+> 19 |     setRole(savedRole)
+     |     ^^^^^^^ Avoid calling setState() directly within an effect
+  20 |   }, [])
+  21 |
+  22 |   /* ===================== LINKS ===================== */  react-hooks/set-state-in-effect
+
+D:\Project AI Interview\frontend\src\components\interview\InterviewControls.tsx
+   31:3   warning  'normalizeRole' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  154:42  error    Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+D:\Project AI Interview\frontend\src\components\interview\InterviewControls.tsx:154:42
+  152 |
+  153 | function useInterviewTimer(enabled: boolean, startedAt?: string) {
+> 154 |   const [baseNow, setBaseNow] = useState(Date.now());
+      |                                          ^^^^^^^^^^ Cannot call impure function
+  155 |
+  156 |   useState(() => {
+  157 |     if (!enabled) return;  react-hooks/purity
+  309:20  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+  310:21  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+  311:21  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+  332:21  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+  342:21  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+  356:21  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+  370:21  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\components\interview\InterviewFeedbackPanel.tsx
+   21:3   warning  'extractApiMessage' is defined but never used  @typescript-eslint/no-unused-vars
+  241:21  error    Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\components\interview\InterviewLanguageNotice.tsx
+  181:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  200:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  200:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  201:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  202:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  378:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\components\interview\InterviewRoom.tsx
+   29:3   warning  'INTERVIEW_CONFIG' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+  131:13  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+  177:27  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+  197:34  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+  228:40  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+  248:36  error    Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+D:\Project AI Interview\frontend\src\components\interview\InterviewRoom.tsx:248:36
+  246 |
+  247 | function useElapsedSeconds(startedAt?: string, active = false) {
+> 248 |   const [tick, setTick] = useState(Date.now());
+      |                                    ^^^^^^^^^^ Cannot call impure function
+  249 |
+  250 |   useEffect(() => {
+  251 |     if (!active) return;  react-hooks/purity
+  402:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+  433:37  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+  434:25  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+  446:21  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+  476:21  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+  602:21  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\components\interview\InterviewScoreCard.tsx
+  240:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\components\interview\InterviewTranscript.tsx
+  193:30  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+  210:10  warning  'extractPayload' is defined but never used  @typescript-eslint/no-unused-vars
+  210:30  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+  217:17  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+  218:17  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+  219:17  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+  220:17  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+  313:21  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\components\interview\MockInterviewHelpCard.tsx
+  200:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  219:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  219:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  220:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  221:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  408:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\components\nav\AdminFooter.tsx
+  34:6  warning  React Hook useMemo has a missing dependency: 'adminLinks'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\Project AI Interview\frontend\src\components\nav\UserFooter.tsx
+  40:6  warning  React Hook useMemo has a missing dependency: 'userLinks'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\Project AI Interview\frontend\src\components\profile\AdminProfileCard.tsx
+  136:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  265:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\components\profile\ProfileEducationSection.tsx
+  18:3  warning  'FileText' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Project AI Interview\frontend\src\components\profile\UserProfileCard.tsx
+  129:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  258:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\components\resume\DuplicateResumeModal.tsx
+  52:6  warning  'DuplicateResumeResponseData' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Project AI Interview\frontend\src\components\resume\ResumeApplyDialog.tsx
+  78:6  warning  'ApplySuccessData' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Project AI Interview\frontend\src\components\resume\ResumeUploadCard.tsx
+  390:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  508:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  559:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\components\resume\ResumeVersionCard.tsx
+  410:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\components\resume\ResumeVersionList.tsx
+  171:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  176:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  183:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  193:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  197:64  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  453:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\components\resume\TailorResumeForm.tsx
+  204:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  292:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  292:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  293:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  294:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  583:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  628:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  700:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  759:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\components\resume\ToolKnowledgeForm.tsx
+  193:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  227:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  227:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  228:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  229:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  391:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  528:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  617:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  676:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\components\resume\admin\resume\AdminResumeList.tsx
+  13:3  warning  'BadgeCheck' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Project AI Interview\frontend\src\components\resume\admin\resume\AdminResumePreview.tsx
+  698:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+D:\Project AI Interview\frontend\src\components\resume\admin\resume\AdminResumeVersionList.tsx
+  10:3  warning  'CalendarDays' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Project AI Interview\frontend\src\components\resume\editor\ResumeEditor.tsx
+   44:6   warning  'Primitive' is defined but never used     @typescript-eslint/no-unused-vars
+  297:36  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\config\interviewConfig.ts
+  306:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  323:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  491:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\hooks\useAuth.ts
+  205:32  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+  279:26  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+  279:62  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+  280:26  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+  281:22  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+  408:21  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+  431:5   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\Project AI Interview\frontend\src\hooks\useAuth.ts:431:5
+  429 |     if (!autoLoad) return;
+  430 |
+> 431 |     refreshAuth();
+      |     ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  432 |   }, [autoLoad, refreshAuth]);
+  433 |
+  434 |   const isUser = state.role === "USER";  react-hooks/set-state-in-effect
+
+D:\Project AI Interview\frontend\src\hooks\useInterviewSession.ts
+  270:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  305:27  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  329:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  338:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  360:41  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  369:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  506:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  530:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  531:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  539:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  567:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  594:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  629:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  688:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  689:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  690:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  706:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\hooks\useResumeEditor.ts
+    7:3   warning  'findResumeEditorSection' is defined but never used  @typescript-eslint/no-unused-vars
+  189:32  error    Unexpected any. Specify a different type             @typescript-eslint/no-explicit-any
+  205:26  error    Unexpected any. Specify a different type             @typescript-eslint/no-explicit-any
+  205:62  error    Unexpected any. Specify a different type             @typescript-eslint/no-explicit-any
+  206:26  error    Unexpected any. Specify a different type             @typescript-eslint/no-explicit-any
+  207:22  error    Unexpected any. Specify a different type             @typescript-eslint/no-explicit-any
+  235:10  warning  'resolveVersionId' is defined but never used         @typescript-eslint/no-unused-vars
+  397:19  error    Unexpected any. Specify a different type             @typescript-eslint/no-explicit-any
+  481:19  error    Unexpected any. Specify a different type             @typescript-eslint/no-explicit-any
+  578:21  error    Unexpected any. Specify a different type             @typescript-eslint/no-explicit-any
+  630:37  error    Unexpected any. Specify a different type             @typescript-eslint/no-explicit-any
+  641:19  error    Unexpected any. Specify a different type             @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\lib\adminProfileApi.ts
+  262:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\lib\adminResumeApi.ts
+  393:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\lib\api.ts
+  161:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\lib\authApi.ts
+  196:10  warning  'safeNumber' is defined but never used    @typescript-eslint/no-unused-vars
+  248:33  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\lib\githubAnalysisApi.ts
+  256:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\lib\interviewApi.ts
+  370:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Project AI Interview\frontend\src\lib\jobApplicationApi.ts
+  443:33  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  647:16  warning  'del' is defined but never used           @typescript-eslint/no-unused-vars
+
+D:\Project AI Interview\frontend\src\lib\resumeVersionApi.ts
+  529:16  warning  'get' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Project AI Interview\frontend\src\lib\uploadApi.ts
+  167:10  warning  'safeBoolean' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Project AI Interview\frontend\src\types\github.ts
+  824:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  825:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  826:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  841:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  842:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Γ£û 372 problems (306 errors, 66 warnings)
+
