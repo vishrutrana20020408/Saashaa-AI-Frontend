@@ -3,7 +3,6 @@
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { Menu, X, ShieldCheck, LogOut, Loader2, Bell } from "lucide-react";
-import ThemeToggle from "@/components/common/ThemeToggle";
 
 type AdminLink = {
   name: string;
@@ -34,6 +33,7 @@ export const ADMIN_LINKS: AdminLink[] = [
   { name: "Dashboard", path: "/admin/dashboard" },
   { name: "Apply Jobs", path: "/admin/apply-jobs" },
   { name: "Jobs", path: "/admin/jobs" },
+  { name: "Notifications", path: "/admin/notifications" },
   { name: "Interviews", path: "/admin/interviewdashboard" },
   { name: "Resumes", path: "/admin/resume" },
   { name: "Users", path: "/admin/users" },
@@ -105,33 +105,43 @@ export default function AdminNavbar() {
   const [adminName, setAdminName] = useState("Admin");
   const [adminEmail, setAdminEmail] = useState("");
   const [authError, setAuthError] = useState("");
+  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   type NotificationItem = {
+    id?: number;
     title: string;
     subtitle: string;
-    time: string;
+    type?: string;
+    createdAt?: string;
+    isRead?: boolean;
   };
 
-  const notifications = useMemo<NotificationItem[]>(() => {
-    if (!pathname.startsWith("/admin")) return [];
-    return [
-      {
-        title: "Review job settings",
-        subtitle: "Review open job settings and company metadata in the admin panel.",
-        time: "2m ago",
-      },
-      {
-        title: "New interview request",
-        subtitle: "A candidate has requested a new interview slot.",
-        time: "12m ago",
-      },
-      {
-        title: "Report summary ready",
-        subtitle: "Candidate review reports are ready for your action.",
-        time: "1h ago",
-      },
-    ];
-  }, [pathname]);
+  const fetchNotifications = useCallback(async () => {
+    try {
+      const token = getStoredToken();
+      const response = await fetch(`${API_BASE_URL}/api/notifications/unread`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+        cache: "no-store",
+      });
+      if (!response.ok) {
+        setNotifications([]);
+        setUnreadCount(0);
+        return;
+      }
+      const parsed = (await response.json()) as NotificationItem[];
+      setNotifications(parsed || []);
+      setUnreadCount(Array.isArray(parsed) ? parsed.length : 0);
+    } catch {
+      setNotifications([]);
+      setUnreadCount(0);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!pathname.startsWith("/admin")) return;
+    fetchNotifications();
+  }, [fetchNotifications, pathname]);
 
   const isActive = useCallback(
     (path: string) => {
@@ -390,8 +400,6 @@ export default function AdminNavbar() {
             </button>
           ))}
 
-          <ThemeToggle />
-
           <div className="relative">
             <button
               type="button"
@@ -400,14 +408,14 @@ export default function AdminNavbar() {
               aria-label="Toggle notifications menu"
             >
               <Bell className="h-5 w-5" />
-              {notifications.length > 0 && (
+              {unreadCount > 0 && (
                 <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-500 px-1.5 text-[0.65rem] font-semibold text-white shadow-lg shadow-rose-500/30">
-                  {notifications.length}
+                  {unreadCount}
                 </span>
               )}
             </button>
 
-            {showNotifications && notifications.length > 0 && (
+            {showNotifications && (
               <div
                 ref={notificationsMenuRef}
                 className={`absolute right-0 top-full z-50 mt-3 w-[320px] overflow-hidden rounded-3xl border border-(--border) bg-(--card) text-(--foreground) shadow-2xl shadow-black/10 transition-transform duration-300 ${
@@ -417,7 +425,7 @@ export default function AdminNavbar() {
                 <div className="flex items-center justify-between border-b border-(--border) px-4 py-3">
                   <div>
                     <p className="text-sm font-semibold">Notifications</p>
-                    <p className="text-xs text-(--muted)">You have {notifications.length} new notifications</p>
+                    <p className="text-xs text-(--muted)">You have {unreadCount} unread notification{unreadCount === 1 ? "" : "s"}</p>
                   </div>
                   <button
                     type="button"
@@ -428,20 +436,28 @@ export default function AdminNavbar() {
                   </button>
                 </div>
                 <div className="max-h-72 space-y-2 overflow-y-auto px-3 py-3">
-                  {notifications.map((notification, index) => (
-                    <div
-                      key={index}
-                      className="group rounded-3xl border border-(--border) bg-(--popover) p-4 transition hover:-translate-y-0.5 hover:bg-(--background)"
-                    >
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <p className="font-semibold text-(--foreground)">{notification.title}</p>
-                          <p className="mt-1 text-sm leading-6 text-(--muted)">{notification.subtitle}</p>
+                  {notifications.length > 0 ? (
+                    notifications.map((notification) => (
+                      <div
+                        key={notification.id ?? notification.title}
+                        className="group rounded-3xl border border-(--border) bg-(--popover) p-4 transition hover:-translate-y-0.5 hover:bg-(--background)"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div>
+                            <p className="font-semibold text-(--foreground)">{notification.title}</p>
+                            <p className="mt-1 text-sm leading-6 text-(--muted)">{notification.subtitle}</p>
+                          </div>
+                          <span className="text-xs text-(--muted)">
+                            {notification.createdAt ? new Date(notification.createdAt).toLocaleString() : "Just now"}
+                          </span>
                         </div>
-                        <span className="text-xs text-(--muted)">{notification.time}</span>
                       </div>
+                    ))
+                  ) : (
+                    <div className="rounded-3xl border border-(--border) bg-(--popover) p-4 text-sm text-(--muted)">
+                      No unread notifications.
                     </div>
-                  ))}
+                  )}
                 </div>
                 <div className="border-t border-(--border) px-4 py-3">
                   <button
@@ -518,10 +534,6 @@ export default function AdminNavbar() {
                 </p>
               </div>
             </div>
-          </div>
-
-          <div className="mb-4">
-            <ThemeToggle />
           </div>
 
           <div className="flex flex-col gap-2">

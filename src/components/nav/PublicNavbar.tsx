@@ -3,7 +3,6 @@
 import { useRouter, usePathname } from "next/navigation"
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
-import ThemeToggle from "@/components/common/ThemeToggle"
 
 const HOME_LINKS = [
   { name: "Home", path: "/" },
@@ -58,7 +57,6 @@ export default function PublicNavbar() {
           ))}
 
           {/* AUTH */}
-          <ThemeToggle />
           <button
             onClick={() => navigate("/auth/login")}
             className="px-4 py-2 rounded-lg border border-(--border) bg-(--card) text-(--foreground) hover:bg-(--popover) hover:text-(--foreground) transition font-medium text-sm"
@@ -99,7 +97,6 @@ export default function PublicNavbar() {
           ))}
 
           <div className="flex flex-col gap-3">
-            <ThemeToggle />
             <button
               onClick={() => navigate("/auth/login")}
               className="border border-(--border) py-2 rounded-lg text-left text-(--foreground) hover:bg-(--popover) px-3 font-medium"

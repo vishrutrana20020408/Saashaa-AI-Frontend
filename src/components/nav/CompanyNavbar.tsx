@@ -16,7 +16,6 @@ import {
   UserPlus,
   Activity,
 } from "lucide-react";
-import ThemeToggle from "@/components/common/ThemeToggle";
 
 type NavLink = {
   name: string;
@@ -267,8 +266,6 @@ export default function CompanyNavbar() {
                 </div>
               )}
             </div>
-
-            <ThemeToggle />
 
             <Link
               href="/company/register"

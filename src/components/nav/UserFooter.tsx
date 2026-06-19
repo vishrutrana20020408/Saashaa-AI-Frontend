@@ -59,17 +59,13 @@ export default function UserFooter() {
       <motion.div
         animate={{ x: [0, 40, -40, 0], y: [0, -30, 30, 0] }}
         transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-        className="absolute -top-40 -left-40 w-125 h-125
-          bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600
-          opacity-20 blur-3xl rounded-full"
+        className="absolute -top-40 -left-40 w-125 h-125 bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-20 blur-3xl rounded-full"
       />
 
       <motion.div
         animate={{ x: [0, -30, 30, 0], y: [0, 40, -40, 0] }}
         transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
-        className="absolute -bottom-40 -right-40 w-125 h-125
-          bg-linear-to-r from-pink-600 via-purple-600 to-indigo-600
-          opacity-20 blur-3xl rounded-full"
+        className="absolute -bottom-40 -right-40 w-125 h-125 bg-linear-to-r from-pink-600 via-purple-600 to-indigo-600 opacity-20 blur-3xl rounded-full"
       />
 
       {/* ================= SHIMMER BORDER ================= */}
@@ -77,8 +73,7 @@ export default function UserFooter() {
         <motion.div
           animate={{ x: ["-100%", "100%"] }}
           transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-          className="absolute top-0 h-px w-1/2
-            bg-linear-to-r from-transparent via-indigo-500 to-transparent"
+          className="absolute top-0 h-px w-1/2 bg-linear-to-r from-transparent via-indigo-500 to-transparent"
         />
       </div>
 
@@ -147,10 +142,7 @@ export default function UserFooter() {
                         stiffness: 500,
                         damping: 35,
                       }}
-                      className="absolute inset-0 rounded-xl
-                        bg-indigo-600/20
-                        border border-indigo-500
-                        shadow-[0_0_20px_rgba(99,102,241,0.8)]"
+                      className="absolute inset-0 rounded-xl bg-indigo-600/20 border border-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.8)]"
                     />
                   )}
 

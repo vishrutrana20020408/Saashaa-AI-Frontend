@@ -15,7 +15,6 @@ import {
   Briefcase,
   Loader2,
 } from "lucide-react";
-import ThemeToggle from "@/components/common/ThemeToggle";
 
 type NavLink = {
   name: string;
@@ -488,8 +487,6 @@ export default function UserNavbar() {
 
             <div className="mx-2 h-6 w-px bg-slate-200/70 hidden lg:block" />
 
-            <ThemeToggle />
-
             <button
               onClick={handleLogout}
               disabled={isLoggingOut}
@@ -576,10 +573,6 @@ export default function UserNavbar() {
                   </p>
                 </div>
               </div>
-            </div>
-
-            <div className="mb-4">
-              <ThemeToggle />
             </div>
 
             <div className="grid gap-2">

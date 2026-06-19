@@ -83,29 +83,8 @@ interface Job {
   status: string;
   lastDateToApply?: string;
   createdAt?: string;
-}
-
-/* ================= HELPERS ================= */
-
-const ROLE_TOKEN_KEYS: Record<string, string> = {
-  USER: "userToken",
-  ADMIN: "adminToken",
-  COMPANY: "companyToken",
-  OWNER: "ownerToken",
-};
-
-function unwrap<T>(value: BackendEnvelope<T> | T | null | undefined): T | null {
-  if (!value || typeof value !== "object") return null;
-  const v = value as BackendEnvelope<T> & T;
-  return v.data ?? v.payload ?? v.result ?? (v as T);
-}
-
-function getToken() {
-  if (typeof window === "undefined") return "";
-
-  const role = (localStorage.getItem("userRole") || localStorage.getItem("role") || "")
-    .toUpperCase()
-    .replace("ROLE_", "");
+    createdBy?: string;
+    createdByName?: string;
 
   const roleToken = role ? localStorage.getItem(ROLE_TOKEN_KEYS[role] || "") : null;
 
@@ -168,6 +147,7 @@ export default function AdminJobsPage() {
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [showJobDetails, setShowJobDetails] = useState(false);
   const [editingJob, setEditingJob] = useState(false);
+  const [adminId, setAdminId] = useState("");
 
   const [showCreate, setShowCreate] = useState(false);
   const [skillInput, setSkillInput] = useState("");
@@ -338,6 +318,9 @@ export default function AdminJobsPage() {
         return null;
       }
 
+      const adminIdentifier = data.adminId ?? data.id ?? data.userId;
+      setAdminId(adminIdentifier != null ? String(adminIdentifier) : "");
+
       return token;
     } catch {
       clearStoredAuth();
@@ -347,6 +330,14 @@ export default function AdminJobsPage() {
       setAuthChecking(false);
     }
   }, [backendBaseUrl, router]);
+
+  const canManageJob = useCallback(
+    (job: Job | null) => {
+      if (!job || !adminId) return false;
+      return String(job.createdBy || "") === String(adminId);
+    },
+    [adminId]
+  );
 
   /* ================= FETCH JOBS ================= */
 
@@ -434,6 +425,11 @@ export default function AdminJobsPage() {
     const token = getToken();
     if (!token) return;
 
+    if (!selectedJob || !canManageJob(selectedJob)) {
+      setError("Only the admin who created this job may delete it.");
+      return;
+    }
+
     if (!window.confirm("Delete this job post? This cannot be undone.")) {
       return;
     }
@@ -446,11 +442,16 @@ export default function AdminJobsPage() {
         },
       });
 
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const payload = await res.json().catch(() => null);
+        throw new Error((payload as any)?.message || "Failed to delete job.");
+      }
       closeJobDetailsModal();
       await loadJobs(token);
-    } catch {
-      setError("Failed to delete job.");
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Failed to delete job."
+      );
     }
   };
 
@@ -466,6 +467,11 @@ export default function AdminJobsPage() {
   };
 
   const openEditJob = (job: Job) => {
+    if (!canManageJob(job)) {
+      setError("Only the admin who created this job may edit it.");
+      return;
+    }
+
     setEditingJob(true);
     setShowCreate(true);
     setShowJobDetails(false);
@@ -673,14 +679,24 @@ export default function AdminJobsPage() {
               <button
                 type="button"
                 onClick={() => selectedJob && openEditJob(selectedJob)}
-                className="inline-flex items-center justify-center rounded-2xl border border-indigo-300 bg-indigo-600 px-6 py-3 text-white transition hover:bg-indigo-500"
+                disabled={!selectedJob || !canManageJob(selectedJob)}
+                className={`inline-flex items-center justify-center rounded-2xl border px-6 py-3 text-white transition ${
+                  selectedJob && canManageJob(selectedJob)
+                    ? "border-indigo-300 bg-indigo-600 hover:bg-indigo-500"
+                    : "border-slate-700 bg-slate-700/70 cursor-not-allowed opacity-60"
+                }`}
               >
                 Edit Job
               </button>
               <button
                 type="button"
                 onClick={() => selectedJob && deleteJob(selectedJob.id)}
-                className="inline-flex items-center justify-center rounded-2xl border border-rose-500 bg-rose-600 px-6 py-3 text-white transition hover:bg-rose-500"
+                disabled={!selectedJob || !canManageJob(selectedJob)}
+                className={`inline-flex items-center justify-center rounded-2xl border px-6 py-3 text-white transition ${
+                  selectedJob && canManageJob(selectedJob)
+                    ? "border-rose-500 bg-rose-600 hover:bg-rose-500"
+                    : "border-slate-700 bg-slate-700/70 cursor-not-allowed opacity-60"
+                }`}
               >
                 Delete Job
               </button>
@@ -692,6 +708,11 @@ export default function AdminJobsPage() {
                 Close
               </button>
             </div>
+            {!canManageJob(selectedJob) && (
+              <div className="mt-4 rounded-3xl border border-yellow-500/20 bg-yellow-500/10 p-4 text-sm text-yellow-100">
+                Only the admin who created this job may edit or delete it.
+              </div>
+            )}
           </div>
         </div>
       ) : null}

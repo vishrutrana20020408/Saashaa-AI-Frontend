@@ -293,9 +293,7 @@ export default function CompanyInboxPage() {
         {/* SIDEBAR TOGGLE BUTTON ATTACHED */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="absolute top-6 left-0 translate-x-[-50%] 
-                     bg-white shadow-md border rounded-full p-2 
-                     hover:bg-gray-100 transition z-20"
+          className="absolute top-6 left-0 translate-x-[-50%] bg-white shadow-md border rounded-full p-2 hover:bg-gray-100 transition z-20"
           style={{ left: sidebarOpen ? sidebarWidth : 0 }}
         >
           {sidebarOpen ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}

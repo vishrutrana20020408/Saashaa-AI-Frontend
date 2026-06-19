@@ -24,6 +24,7 @@ import {
   Tag,
 } from "lucide-react";
 import CloudStorageManager from "@/components/resume/CloudStorageManager";
+import { getResumeVersionAtsBadgeClass } from "@/types/resume";
 
 /**
  * src/app/(public)/user/resume/page.tsx
@@ -247,6 +248,13 @@ function safePrettyJson(value?: string) {
   } catch {
     return value;
   }
+}
+
+function getResumeAtsBandLabel(score?: number | null): string {
+  if (score === null || score === undefined) return "No Score";
+  if (score >= 80) return "Excellent";
+  if (score >= 60) return "Good";
+  return "Needs Improvement";
 }
 
 export default function ResumePage() {
@@ -1302,6 +1310,48 @@ export default function ResumePage() {
                 <X size={16} />
                 Close
               </button>
+            </div>
+
+            <div className="rounded-3xl border border-white/10 bg-black/25 p-4 sm:p-5">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm font-semibold text-white">Resume ATS Ranking</p>
+                  <p className="mt-1 text-sm text-white/55">
+                    Backend score for the current resume version. This ranking is based on the stored ATS score already calculated in the backend.
+                  </p>
+                </div>
+
+                <span
+                  className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${getResumeVersionAtsBadgeClass(resume?.atsScore)}`}
+                >
+                  {getResumeAtsBandLabel(resume?.atsScore)}
+                </span>
+              </div>
+
+              <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-white/50">Backend ATS Score</p>
+                  <p className="mt-2 text-3xl font-bold text-white">
+                    {resume?.atsScore != null ? `${Math.round(resume.atsScore)}%` : "N/A"}
+                  </p>
+                </div>
+
+                <button
+                  onClick={saveResumeContent}
+                  disabled={saving || !hasUnsavedChanges}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-linear-to-r from-indigo-500 to-fuchsia-500 px-5 py-3 font-semibold transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <Save size={18} />
+                  Update Resume
+                </button>
+              </div>
+
+              <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/10">
+                <div
+                  className="h-full bg-linear-to-r from-green-400 via-blue-500 to-purple-500"
+                  style={{ width: `${Math.max(0, Math.min(resume?.atsScore ?? 0, 100))}%` }}
+                />
+              </div>
             </div>
 
             <textarea

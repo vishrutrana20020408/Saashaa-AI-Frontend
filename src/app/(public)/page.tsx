@@ -225,10 +225,7 @@ export default function Home() {
         whileHover={{ scale: 1.05, y: -8 }}
         whileTap={{ scale: 0.96 }}
         onClick={() => window.open(t.link, "_blank")}
-        className="backdrop-blur-xl bg-white/10 rounded-3xl p-6 sm:p-8 text-center cursor-pointer
-                   hover:ring-2 hover:ring-blue-500 
-                   hover:shadow-[0_0_35px_rgba(59,130,246,0.6)]
-                   transition-all duration-300"
+        className="backdrop-blur-xl bg-white/10 rounded-3xl p-6 sm:p-8 text-center cursor-pointer hover:ring-2 hover:ring-blue-500 hover:shadow-[0_0_35px_rgba(59,130,246,0.6)] transition-all duration-300"
       >
         <div className="h-24 w-24 sm:h-32 sm:w-32 mx-auto rounded-full overflow-hidden mb-4 sm:mb-6 ring-2 ring-white/30">
           <Image

@@ -17,7 +17,6 @@ import {
   Activity,
   Shield,
 } from "lucide-react";
-import ThemeToggle from "@/components/common/ThemeToggle";
 import { Notification } from "@/types/api";
 
 type NavLink = {
@@ -299,8 +298,6 @@ export default function OwnerNavbar() {
                 </div>
               )}
             </div>
-
-            <ThemeToggle />
 
             <Link
               href="/owner/login"
