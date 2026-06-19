@@ -214,36 +214,6 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* TEAM */}
-      <section className="min-h-screen bg-linear-to-br from-zinc-900 to-black flex items-center justify-center text-white select-none cursor-fine px-4 py-16">
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 max-w-6xl mx-auto">
-    <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-center col-span-full mb-8">Our Team</h1>
-
-    {TEAM.map((t, i) => (
-      <motion.div
-        key={i}
-        whileHover={{ scale: 1.05, y: -8 }}
-        whileTap={{ scale: 0.96 }}
-        onClick={() => window.open(t.link, "_blank")}
-        className="backdrop-blur-xl bg-white/10 rounded-3xl p-6 sm:p-8 text-center cursor-pointer hover:ring-2 hover:ring-blue-500 hover:shadow-[0_0_35px_rgba(59,130,246,0.6)] transition-all duration-300"
-      >
-        <div className="h-24 w-24 sm:h-32 sm:w-32 mx-auto rounded-full overflow-hidden mb-4 sm:mb-6 ring-2 ring-white/30">
-          <Image
-            src={t.img}
-            alt={t.name}
-            width={128}
-            height={128}
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        <h3 className="text-xl sm:text-2xl font-bold">{t.name}</h3>
-        <p className="text-white/60 text-sm sm:text-base">{t.role}</p>
-      </motion.div>
-    ))}
-  </div>
-</section>
-
       {/* WHY CHOOSE US */}
 <section className="min-h-screen bg-linear-to-b from-zinc-100 to-white py-16 sm:py-24 md:py-32 select-none cursor-fine">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
