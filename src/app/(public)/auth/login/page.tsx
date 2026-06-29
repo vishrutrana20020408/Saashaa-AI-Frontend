@@ -6,6 +6,15 @@ import { motion } from "framer-motion";
 import { ArrowRight, Briefcase, Eye, EyeOff, Loader2, Shield, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: string | HTMLElement, options: Record<string, any>) => void;
+      reset?: (widgetId: any) => void;
+    };
+  }
+}
+
 type RoleType = "user" | "admin";
 
 type Primitive = string | number | boolean | null | undefined;
@@ -319,11 +328,20 @@ export default function LoginPage() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaReady, setCaptchaReady] = useState(false);
+  const [captchaError, setCaptchaError] = useState("");
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const turnstileSiteKey = useMemo(() => {
+    return (
+      process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY?.trim() || ""
+    );
+  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -331,6 +349,49 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!mounted) return;
+
+    if (turnstileSiteKey) {
+      const existingScript = document.querySelector<HTMLScriptElement>(
+        'script[src="https://challenges.cloudflare.com/turnstile/v0/api.js"]'
+      );
+
+      const renderWidget = () => {
+        if (!window.turnstile) {
+          return;
+        }
+
+        window.turnstile.render("cf-turnstile", {
+          sitekey: turnstileSiteKey,
+          callback: (token: string) => {
+            setCaptchaToken(String(token || ""));
+            setCaptchaError("");
+          },
+          "error-callback": () => {
+            setCaptchaError("CAPTCHA failed to load. Please refresh the page.");
+          },
+          "expired-callback": () => {
+            setCaptchaToken("");
+          },
+        });
+
+        setCaptchaReady(true);
+      };
+
+      if (existingScript) {
+        if (window.turnstile) {
+          renderWidget();
+        } else {
+          existingScript.addEventListener("load", renderWidget, { once: true });
+        }
+      } else {
+        const script = document.createElement("script");
+        script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+        script.async = true;
+        script.defer = true;
+        script.onload = renderWidget;
+        document.body.appendChild(script);
+      }
+    }
 
     let cancelled = false;
 
@@ -410,7 +471,11 @@ export default function LoginPage() {
       setLoading(true);
       clearStoredAuth();
 
-      const loginEndpoint = getLoginEndpoint(role, backendBaseUrl);
+        const loginEndpoint = getLoginEndpoint(role, backendBaseUrl);
+
+      if (turnstileSiteKey && !captchaToken) {
+        throw new Error("Please complete the CAPTCHA before signing in.");
+      }
 
       const response = await fetch(loginEndpoint, {
         method: "POST",
@@ -423,6 +488,7 @@ export default function LoginPage() {
           email,
           emailAddress: email,
           password,
+          captchaToken: captchaToken || undefined,
         }),
       });
 
@@ -634,23 +700,31 @@ export default function LoginPage() {
             </motion.div>
           )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className={`flex w-full items-center justify-center gap-2 rounded-xl py-3.5 font-bold text-white shadow-lg transition disabled:opacity-50 ${
-              role === "admin"
-                ? "bg-cyan-600 hover:bg-cyan-700 shadow-cyan-200/50"
-                : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200/50"
-            }`}
-          >
-            {loading ? (
-              <Loader2 className="h-5 w-5 animate-spin" />
-            ) : (
-              <>
-                Sign In <ArrowRight size={18} />
-              </>
-            )}
-          </button>
+          <div className="space-y-3">
+            <div id="cf-turnstile" className="mx-auto" />
+            {captchaError ? (
+              <div className="rounded-xl bg-rose-500/10 px-3 py-2 text-center text-xs font-medium text-rose-600">
+                {captchaError}
+              </div>
+            ) : null}
+            <button
+              type="submit"
+              disabled={loading}
+              className={`flex w-full items-center justify-center gap-2 rounded-xl py-3.5 font-bold text-white shadow-lg transition disabled:opacity-50 ${
+                role === "admin"
+                  ? "bg-cyan-600 hover:bg-cyan-700 shadow-cyan-200/50"
+                  : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200/50"
+              }`}
+            >
+              {loading ? (
+                <Loader2 className="h-5 w-5 animate-spin" />
+              ) : (
+                <>
+                  Sign In <ArrowRight size={18} />
+                </>
+              )}
+            </button>
+          </div>
         </form>
 
         <div className="mt-8 border-t border-(--border) pt-6 text-center">

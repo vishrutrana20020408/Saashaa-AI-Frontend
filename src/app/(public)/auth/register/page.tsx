@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Eye,
@@ -11,6 +11,15 @@ import {
   UserPlus,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: string | HTMLElement, options: Record<string, any>) => void;
+      reset?: (widgetId: any) => void;
+    };
+  }
+}
 
 interface RegisterFormData {
   firstName: string;
@@ -228,6 +237,15 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const [captchaToken, setCaptchaToken] = useState<string>("");
+  const [captchaReady, setCaptchaReady] = useState<boolean>(false);
+  const [captchaError, setCaptchaError] = useState<string>("");
+
+  const turnstileSiteKey = useMemo(() => {
+    return (
+      process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY?.trim() || ""
+    );
+  }, []);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
     const name = e.target.name as keyof RegisterFormData;
@@ -246,6 +264,51 @@ export default function RegisterPage() {
       [name]: value,
     }));
   }
+
+  useEffect(() => {
+    if (!turnstileSiteKey) return;
+
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      'script[src="https://challenges.cloudflare.com/turnstile/v0/api.js"]'
+    );
+
+    const renderWidget = () => {
+      if (!window.turnstile) {
+        return;
+      }
+
+      window.turnstile.render("cf-turnstile", {
+        sitekey: turnstileSiteKey,
+        callback: (token: string) => {
+          setCaptchaToken(String(token || ""));
+          setCaptchaError("");
+        },
+        "error-callback": () => {
+          setCaptchaError("CAPTCHA failed to load. Please refresh the page.");
+        },
+        "expired-callback": () => {
+          setCaptchaToken("");
+        },
+      });
+
+      setCaptchaReady(true);
+    };
+
+    if (existingScript) {
+      if (window.turnstile) {
+        renderWidget();
+      } else {
+        existingScript.addEventListener("load", renderWidget, { once: true });
+      }
+    } else {
+      const script = document.createElement("script");
+      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+      script.async = true;
+      script.defer = true;
+      script.onload = renderWidget;
+      document.body.appendChild(script);
+    }
+  }, [turnstileSiteKey]);
 
   async function handleSubmit(
     e: React.FormEvent<HTMLFormElement>
@@ -287,6 +350,11 @@ export default function RegisterPage() {
       return;
     }
 
+    if (turnstileSiteKey && !captchaToken) {
+      setError("Please complete the CAPTCHA before registering.");
+      return;
+    }
+
     try {
       setLoading(true);
       clearStoredAuth();
@@ -299,6 +367,7 @@ export default function RegisterPage() {
         emailAddress: email,
         mobileNumber: phone,
         password,
+        captchaToken: captchaToken || undefined,
       };
 
       const response = await fetch(endpoint, {
@@ -561,23 +630,31 @@ export default function RegisterPage() {
             </div>
           ) : null}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="h-5 w-5 animate-spin" />
-                Creating account...
-              </>
-            ) : (
-              <>
-                <ShieldCheck className="h-5 w-5" />
-                Create Account
-              </>
-            )}
-          </button>
+          <div className="space-y-3">
+            <div id="cf-turnstile" className="mx-auto" />
+            {captchaError ? (
+              <div className="rounded-xl bg-rose-500/10 px-3 py-2 text-center text-xs font-medium text-rose-600">
+                {captchaError}
+              </div>
+            ) : null}
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Creating account...
+                </>
+              ) : (
+                <>
+                  <ShieldCheck className="h-5 w-5" />
+                  Create Account
+                </>
+              )}
+            </button>
+          </div>
         </form>
 
         <div className="mt-5 text-center text-sm">

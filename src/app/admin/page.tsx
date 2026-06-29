@@ -241,7 +241,7 @@ export default function AdminPage() {
 
     try {
       const response = await fetch(
-        `${backendBaseUrl}/api/admin/interview/sessions`,
+        `${backendBaseUrl}/api/admin/interview/sessions/pending`,
         {
           method: "GET",
           headers: {
@@ -266,7 +266,7 @@ export default function AdminPage() {
 
       const pending = sessions.find(
         (session: any) =>
-          ["PENDING", "IN_PROGRESS"].includes(
+          ["CREATED", "ACTIVE", "PENDING", "IN_PROGRESS"].includes(
             resolveInterviewStatus(session)
           )
       );

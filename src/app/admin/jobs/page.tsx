@@ -58,6 +58,9 @@ interface AuthMeLike {
   userRole?: string;
   roles?: string[];
   name?: string;
+  id?: string | number;
+  adminId?: string | number;
+  userId?: string | number;
 }
 
 interface Job {
@@ -83,9 +86,18 @@ interface Job {
   status: string;
   lastDateToApply?: string;
   createdAt?: string;
-    createdBy?: string;
-    createdByName?: string;
+  createdBy?: string;
+  createdByName?: string;
+}
 
+const ROLE_TOKEN_KEYS: Record<string, string> = {
+  ADMIN: "adminToken",
+  USER: "token",
+  COMPANY: "companyToken",
+  OWNER: "ownerToken",
+};
+
+function getStoredAuthToken(role?: string) {
   const roleToken = role ? localStorage.getItem(ROLE_TOKEN_KEYS[role] || "") : null;
 
   return (
@@ -98,6 +110,21 @@ interface Job {
     localStorage.getItem("authToken") ||
     localStorage.getItem("token") ||
     localStorage.getItem("jwtToken") ||
+    ""
+  );
+}
+
+function getToken() {
+  if (typeof window === "undefined") return "";
+  return (
+    localStorage.getItem("token") ||
+    localStorage.getItem("authToken") ||
+    localStorage.getItem("accessToken") ||
+    localStorage.getItem("jwtToken") ||
+    localStorage.getItem("adminToken") ||
+    localStorage.getItem("userToken") ||
+    localStorage.getItem("companyToken") ||
+    localStorage.getItem("ownerToken") ||
     ""
   );
 }
@@ -128,6 +155,12 @@ function clearStoredAuth() {
 
 function normalizeRole(role?: string) {
   return (role || "").toUpperCase().replace("ROLE_", "");
+}
+
+function unwrap<T>(json: T | BackendEnvelope<T> | null | undefined): T | null {
+  if (!json || typeof json !== "object") return null;
+  const envelope = json as BackendEnvelope<T> & T;
+  return envelope.data ?? envelope.payload ?? envelope.result ?? null;
 }
 
 /* ================= PAGE ================= */

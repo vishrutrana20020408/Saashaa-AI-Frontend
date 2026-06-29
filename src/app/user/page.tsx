@@ -412,12 +412,15 @@ export default function UserLandingPage() {
         headers.Authorization = `Bearer ${token}`;
       }
 
-      const response = await fetch(`${API_BASE_URL}/api/user/interview/session`, {
-        method: "GET",
-        headers,
-        credentials: "include",
-        cache: "no-store",
-      });
+      const response = await fetch(
+        `${API_BASE_URL}/api/user/interview/session/pending`,
+        {
+          method: "GET",
+          headers,
+          credentials: "include",
+          cache: "no-store",
+        }
+      );
 
       if (!response.ok) {
         return;
@@ -431,10 +434,12 @@ export default function UserLandingPage() {
         ? payload.data
         : [];
 
-      const pending = sessions.find(
-        (session: any) =>
-          ["PENDING", "IN_PROGRESS"].includes(resolveInterviewStatus(session))
-      );
+      const pending =
+        sessions.find((session: any) =>
+          ["CREATED", "ACTIVE", "PENDING", "IN_PROGRESS"].includes(
+            resolveInterviewStatus(session)
+          )
+        ) || sessions[0];
 
       if (pending) {
         const href = buildContinueInterviewHref(pending);
