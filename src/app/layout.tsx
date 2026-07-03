@@ -1,4 +1,5 @@
 ﻿import { ReactNode } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import AppShell from "../components/common/AppShell";
 import "./globals.css";
 
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </head>
       <body className="min-h-screen bg-(--background) text-(--foreground) antialiased transition-colors duration-300 overflow-x-hidden">
         <AppShell>{children}</AppShell>
+        <SpeedInsights />
       </body>
     </html>
   );
