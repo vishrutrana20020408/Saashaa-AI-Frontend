@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 
-const BACKEND_BASE_URL =
-  process.env.NEXT_PUBLIC_AI_ENGINE_URL ||
-  process.env.NEXT_PUBLIC_API_BASE_URL ||
-  process.env.NEXT_PUBLIC_BACKEND_URL ||
-  "http://localhost:8000";
+const AI_ENGINE_BASE_URL =
+  process.env.NEXT_PUBLIC_AI_ENGINE_URL?.trim()?.replace(/\/+$/, "") ||
+  process.env.NEXT_PUBLIC_AI_ENGINE_BASE_URL?.trim()?.replace(/\/+$/, "") ||
+  (process.env.NODE_ENV === "production"
+    ? "https://saashaa-ai-engine.onrender.com"
+    : "http://localhost:8000");
 
 export async function POST(req: Request) {
   const formData = await req.formData();
@@ -25,7 +26,7 @@ export async function POST(req: Request) {
   backendForm.append("file", new Blob([audioBuffer], { type: contentType }), "audio.webm");
   backendForm.append("language", language);
 
-  const response = await fetch(`${BACKEND_BASE_URL}/api/speech/transcribe`, {
+  const response = await fetch(`${AI_ENGINE_BASE_URL}/api/speech/transcribe`, {
     method: "POST",
     body: backendForm,
   });

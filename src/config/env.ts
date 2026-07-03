@@ -46,7 +46,13 @@ export type PublicRuntimeEnv = {
   };
 };
 
-const DEFAULT_API_BASE_URL = "http://localhost:8080";
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
+const DEFAULT_API_BASE_URL = IS_PRODUCTION
+  ? "https://saashaa-ai-backend.onrender.com"
+  : "http://localhost:8080";
+const DEFAULT_AI_ENGINE_URL = IS_PRODUCTION
+  ? "https://saashaa-ai-engine.onrender.com"
+  : "http://localhost:8000";
 const DEFAULT_APP_NAME = "AI Interview System";
 
 function trimTrailingSlash(value: string): string {
@@ -93,12 +99,20 @@ function buildWsBaseUrl(apiBaseUrl: string, explicitWsBaseUrl?: string): string 
 const RAW_API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ||
   process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.NEXT_PUBLIC_BACKEND_BASE_URL ||
   DEFAULT_API_BASE_URL;
 
+const RAW_AI_ENGINE_URL =
+  process.env.NEXT_PUBLIC_AI_ENGINE_URL ||
+  process.env.NEXT_PUBLIC_AI_ENGINE_BASE_URL ||
+  DEFAULT_AI_ENGINE_URL;
+
 const API_BASE_URL = normalizeUrl(RAW_API_BASE_URL, DEFAULT_API_BASE_URL);
+const AI_ENGINE_BASE_URL = normalizeUrl(RAW_AI_ENGINE_URL, DEFAULT_AI_ENGINE_URL);
 const WS_BASE_URL = buildWsBaseUrl(
   API_BASE_URL,
-  process.env.NEXT_PUBLIC_WS_BASE_URL
+  process.env.NEXT_PUBLIC_WS_BASE_URL ||
+    (IS_PRODUCTION ? AI_ENGINE_BASE_URL.replace(/^https:\/\//i, "wss://") : undefined)
 );
 
 export const ENV: PublicRuntimeEnv = {
